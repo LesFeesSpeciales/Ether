@@ -27,3 +27,43 @@
 # 
 # The fact that you are presently reading this means that you have had
 # knowledge of the CeCILL license and that you accept its terms.
+
+import os
+import datetime
+
+import tornado.ioloop
+import tornado.web
+
+debug = True
+port = 8888
+
+
+class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.write("Hello la ruche")
+
+
+class Application(tornado.web.Application):
+    def __init__(self):
+        handlers = [(r"/", MainHandler)]
+        settings = dict(
+            template_path=os.path.join(os.path.dirname(__file__), "templates"),
+            static_path=os.path.join(os.path.dirname(__file__), "static"),
+        )
+        tornado.web.Application.__init__(self, handlers, cookie_secret="YourSecretPassword", debug=debug, **settings)
+
+
+if __name__ == "__main__":
+    print("\nStarting %s" % __file__)
+    print("Server starting on port %i" % port)
+    print(str(datetime.datetime.now()))
+    if debug:
+        print("Debug ON")
+
+    app = Application()
+    app.listen(port)
+
+    main_loop = tornado.ioloop.IOLoop.instance()
+
+    # Start main loop
+    main_loop.start()
