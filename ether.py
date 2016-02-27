@@ -35,7 +35,7 @@ import tornado.ioloop
 import tornado.web
 
 # Config is a python file containing useful objects
-import nid_config as config
+import ether_config as config
 
 # Load services and provide config if needed
 import services.ouvreuse.ouvreuse as ouvreuse
